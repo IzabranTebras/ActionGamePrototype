@@ -13,13 +13,7 @@ class ACTIONGAMEPROTOTYPE_API UGA_Dash : public UGameplayAbility
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Customization")
-	float TimeBetweenDashes = 2.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Customization")
 	float DashDistance = 1000.0f;
-
-private:
-	FTimerHandle DashTimer;
 
 public:
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags = nullptr, const FGameplayTagContainer* TargetTags = nullptr, OUT FGameplayTagContainer* OptionalRelevantTags = nullptr) const override;
@@ -33,5 +27,4 @@ public:
 
 private:
 	void ResetDash();
-	UGameInstance* GetGameInstance();
 };

@@ -23,10 +23,7 @@ void UGA_Dash::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 		AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
 		Character->Dash(DashDistance);
 
-		if (UGameInstance* GameInstance = GetGameInstance())
-		{
-			GameInstance->GetTimerManager().SetTimer(DashTimer, this, &UGA_Dash::ResetDash, TimeBetweenDashes, false);
-		}
+		ResetDash();
 	}
 }
 
@@ -71,20 +68,4 @@ void UGA_Dash::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 void UGA_Dash::ResetDash()
 {
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
-}
-
-UGameInstance* UGA_Dash::GetGameInstance()
-{
-	UWorld* World = GetWorld();
-	if (!World && GetCurrentActorInfo())
-	{
-		World = GetCurrentActorInfo()->AvatarActor.IsValid() ? GetCurrentActorInfo()->AvatarActor->GetWorld() : nullptr;
-	}
-
-	if (World)
-	{
-		return World->GetGameInstance();
-	}
-
-	return nullptr;
 }

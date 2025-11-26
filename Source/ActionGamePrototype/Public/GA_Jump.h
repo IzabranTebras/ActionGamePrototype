@@ -12,13 +12,6 @@ class ACTIONGAMEPROTOTYPE_API UGA_Jump : public UGameplayAbility
 	GENERATED_UCLASS_BODY()
 	
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Customization")
-	float TimeBetweenJumps = 0.3f;
-
-private:
-	FTimerHandle JumpTimer;
-
-public:
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags = nullptr, const FGameplayTagContainer* TargetTags = nullptr, OUT FGameplayTagContainer* OptionalRelevantTags = nullptr) const override;
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* OwnerInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
@@ -30,5 +23,4 @@ public:
 
 private:
 	void ResetJump();
-	UGameInstance* GetGameInstance();
 };
