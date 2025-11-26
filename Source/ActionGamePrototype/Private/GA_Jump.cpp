@@ -20,10 +20,7 @@ void UGA_Jump::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 			return;
 		}
 
-		AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
-		Character->Jump();
-		
-		ResetJump();
+		Jump(ActorInfo);
 	}
 }
 
@@ -66,8 +63,11 @@ void UGA_Jump::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 	Character->StopJumping();
 }
 
-void UGA_Jump::ResetJump()
+void UGA_Jump::Jump(const FGameplayAbilityActorInfo* ActorInfo)
 {
+	AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
+	Character->Jump();
+	
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
 }
 

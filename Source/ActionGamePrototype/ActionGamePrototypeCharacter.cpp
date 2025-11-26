@@ -9,12 +9,12 @@
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GA_Jump.h"
-#include "GA_Dash.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GA_Dash.h"
+#include "GA_Jump.h"
 #include "InputActionValue.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -93,42 +93,11 @@ void AActionGamePrototypeCharacter::BeginPlay()
 	AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(DashGameplayAbility, 1, 0));
 }
 
-void AActionGamePrototypeCharacter::Jump()
-{
-	Super::Jump();
-}
-
-void AActionGamePrototypeCharacter::Dash(float DashDistance)
-{
-	FVector DashDirection = GetLastMovementInputVector();
-	if (DashDirection.IsNearlyZero())
-	{
-		DashDirection = GetActorForwardVector();
-	}
-
-	GetCharacterMovement()->MovementMode = EMovementMode::MOVE_Custom;
-	LaunchCharacter(DashDirection.GetSafeNormal() * DashDistance, true, true);
-}
-
 void AActionGamePrototypeCharacter::StopDash()
 {
 	GetCharacterMovement()->StopActiveMovement();
 }
 
-bool AActionGamePrototypeCharacter::CanJump() const
-{
-	return Super::CanJump();
-}
-
-void AActionGamePrototypeCharacter::StopJumping()
-{
-	Super::StopJumping();
-}
-
-bool AActionGamePrototypeCharacter::CanJumpInternal_Implementation() const
-{
-	return Super::CanJumpInternal_Implementation();
-}
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -246,6 +215,7 @@ void AActionGamePrototypeCharacter::OnHealthChanged(const FOnAttributeChangeData
 
 void AActionGamePrototypeCharacter::OnManaChanged(const FOnAttributeChangeData& Data)
 {
+	// TODO: Do we need this event?
 	const float NewMana = Data.NewValue;
 }
 

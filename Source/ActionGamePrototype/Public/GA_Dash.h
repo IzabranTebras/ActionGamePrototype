@@ -26,5 +26,5 @@ public:
 
 
 private:
-	void ResetDash();
+	void Dash(const FGameplayAbilityActorInfo* ActorInfo);
 };

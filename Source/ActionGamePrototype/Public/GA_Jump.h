@@ -22,5 +22,5 @@ public:
 
 
 private:
-	void ResetJump();
+	void Jump(const FGameplayAbilityActorInfo* ActorInfo);
 };

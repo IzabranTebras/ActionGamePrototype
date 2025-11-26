@@ -78,18 +78,8 @@ class AActionGamePrototypeCharacter : public ACharacter
 
 public:
 	AActionGamePrototypeCharacter();
-
-	// Dash logic
-	void Dash(float DashDistance);
+	
 	void StopDash();
-
-	// Jump logic
-	void Jump() override;
-
-	// I don't override the function because I don't have the engine code downloaded
-	bool CanJump() const;
-
-	void StopJumping() override;
 
 	/* Attributes update */
 	void OnHealthChanged(const FOnAttributeChangeData& Data);
@@ -129,8 +119,6 @@ protected:
 
 	/** Called for attack input */
 	void AttackInput(const FInputActionValue& Value);
-
-	bool CanJumpInternal_Implementation() const override;
 			
 private:
 	void Die();

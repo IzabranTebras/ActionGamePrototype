@@ -2,7 +2,10 @@
 
 
 #include "GA_Dash.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "ActionGamePrototype/ActionGamePrototypeCharacter.h"
+
+class UCharacterMovementComponent;
 
 UGA_Dash::UGA_Dash(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -20,10 +23,7 @@ void UGA_Dash::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 			return;
 		}
 
-		AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
-		Character->Dash(DashDistance);
-
-		ResetDash();
+		Dash(ActorInfo);
 	}
 }
 
@@ -65,7 +65,17 @@ void UGA_Dash::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 	Character->StopDash();
 }
 
-void UGA_Dash::ResetDash()
+void UGA_Dash::Dash(const FGameplayAbilityActorInfo* ActorInfo)
 {
+	AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
+	FVector DashDirection = Character->GetLastMovementInputVector();
+	if (DashDirection.IsNearlyZero())
+	{
+		DashDirection = Character->GetActorForwardVector();
+	}
+
+	Character->GetCharacterMovement()->MovementMode = EMovementMode::MOVE_Custom;
+	Character->LaunchCharacter(DashDirection.GetSafeNormal() * DashDistance, true, true);
+	
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
 }
