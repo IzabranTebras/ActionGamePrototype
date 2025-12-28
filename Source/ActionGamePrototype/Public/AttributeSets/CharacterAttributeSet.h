@@ -25,32 +25,32 @@ class ACTIONGAMEPROTOTYPE_API UCharacterAttributeSet : public UAttributeSet
 public:
 #pragma region Health
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
-	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health)
-
-	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxHealth)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	FGameplayAttributeData Health;
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health)
 #pragma endregion
 
 #pragma region Mana
 	UPROPERTY(BlueprintReadOnly, Category = "Mana")
-	FGameplayAttributeData Mana;
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Mana)
-
-	UPROPERTY(BlueprintReadOnly, Category = "Mana")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxMana)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Mana")
+	FGameplayAttributeData Mana;
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Mana)
 #pragma endregion
 
 #pragma region Movement
 	UPROPERTY(BlueprintReadOnly, Category = "Movement")
-	FGameplayAttributeData Speed;
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Speed)
-
-	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	FGameplayAttributeData MaxSpeed;
 	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxSpeed)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	FGameplayAttributeData Speed;
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Speed)
 #pragma endregion
 
 	void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;

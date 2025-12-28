@@ -73,7 +73,6 @@ class AActionGamePrototypeCharacter : public ACharacter
 	UInputAction* AttackAction;
 
 	FDelegateHandle OnHealthAttributeChangeDelegateHandle;
-	FDelegateHandle OnManaAttributeChangeDelegateHandle;
 	FDelegateHandle OnSpeedAttributeChangeDelegateHandle;
 
 public:
@@ -83,7 +82,6 @@ public:
 
 	/* Attributes update */
 	void OnHealthChanged(const FOnAttributeChangeData& Data);
-	void OnManaChanged(const FOnAttributeChangeData& Data);
 	void OnSpeedChanged(const FOnAttributeChangeData& Data);
 
 	// Move this to the GE

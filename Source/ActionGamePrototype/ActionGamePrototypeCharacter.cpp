@@ -64,7 +64,6 @@ AActionGamePrototypeCharacter::AActionGamePrototypeCharacter()
 
 	// Listeners bindings. I put those here because the Init GE is executed before the BeginPlay
 	OnHealthAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetHealthAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnHealthChanged);
-	OnManaAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetManaAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnManaChanged);
 	OnSpeedAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetSpeedAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnSpeedChanged);
 
 	// Create the Character attribute set
@@ -211,12 +210,6 @@ void AActionGamePrototypeCharacter::OnHealthChanged(const FOnAttributeChangeData
 		GetCharacterMovement()->MovementMode = EMovementMode::MOVE_Custom;
 		LaunchCharacter(MovementDirection.GetSafeNormal() * (-DamageForceReaction), true, true);
 	}
-}
-
-void AActionGamePrototypeCharacter::OnManaChanged(const FOnAttributeChangeData& Data)
-{
-	// TODO: Do we need this event?
-	const float NewMana = Data.NewValue;
 }
 
 void AActionGamePrototypeCharacter::OnSpeedChanged(const FOnAttributeChangeData& Data)

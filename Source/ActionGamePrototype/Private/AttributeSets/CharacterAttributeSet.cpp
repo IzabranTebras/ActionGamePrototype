@@ -7,7 +7,7 @@ void UCharacterAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& At
 {
 	if (Attribute == GetHealthAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, MAXVALUE);
+		NewValue = FMath::Clamp(NewValue, 0.0f, MaxHealth.GetCurrentValue());
 	}
 
 	if (Attribute == GetMaxHealthAttribute())
@@ -17,7 +17,7 @@ void UCharacterAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& At
 
 	if (Attribute == GetManaAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, MAXVALUE);
+		NewValue = FMath::Clamp(NewValue, 0.0f, MaxMana.GetCurrentValue());
 	}
 
 	if (Attribute == GetMaxManaAttribute())
@@ -27,7 +27,7 @@ void UCharacterAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& At
 
 	if (Attribute == GetSpeedAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, MAXSPEEDVALUE);
+		NewValue = FMath::Clamp(NewValue, 0.0f, MaxSpeed.GetCurrentValue());
 	}
 
 	if (Attribute == GetMaxSpeedAttribute())
@@ -40,7 +40,7 @@ void UCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute& Attrib
 {
 	if(Attribute == GetHealthAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, MAXVALUE);
+		NewValue = FMath::Clamp(NewValue, 0.0f, MaxHealth.GetCurrentValue());
 	}
 
 	if (Attribute == GetMaxHealthAttribute())
@@ -50,7 +50,7 @@ void UCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute& Attrib
 
 	if(Attribute == GetManaAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, MAXVALUE);
+		NewValue = FMath::Clamp(NewValue, 0.0f, MaxMana.GetCurrentValue());
 	}
 
 	if (Attribute == GetMaxManaAttribute())
@@ -60,7 +60,7 @@ void UCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute& Attrib
 
 	if (Attribute == GetSpeedAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, MAXSPEEDVALUE);
+		NewValue = FMath::Clamp(NewValue, 0.0f, MaxSpeed.GetCurrentValue());
 	}
 
 	if (Attribute == GetMaxSpeedAttribute())
