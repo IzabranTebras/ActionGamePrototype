@@ -11,7 +11,9 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UAbilitySystemComponent;
-class UCharacterAttributeSet;
+class UHealthAttributeSet;
+class UManaAttributeSet;
+class USpeedAttributeSet;
 class UGA_Jump;
 class UGA_Dash;
 class UInputMappingContext;
@@ -39,7 +41,13 @@ class AActionGamePrototypeCharacter : public ACharacter
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GAS, meta = (AllowPrivateAccess = "true"))
-	UCharacterAttributeSet* CharacterAttributeSet;
+	UHealthAttributeSet* HealthAttributeSet;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GAS, meta = (AllowPrivateAccess = "true"))
+	UManaAttributeSet* ManaAttributeSet;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GAS, meta = (AllowPrivateAccess = "true"))
+	USpeedAttributeSet* SpeedAttributeSet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UGA_Jump> JumpGameplayAbility;

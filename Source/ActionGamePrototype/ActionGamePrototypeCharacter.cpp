@@ -3,7 +3,6 @@
 #include "ActionGamePrototypeCharacter.h"
 
 #include "AbilitySystemComponent.h"
-#include "AttributeSets/CharacterAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Engine/LocalPlayer.h"
@@ -16,6 +15,9 @@
 #include "GA_Dash.h"
 #include "GA_Jump.h"
 #include "InputActionValue.h"
+#include "AttributeSets/HealthAttributeSet.h"
+#include "AttributeSets/ManaAttributeSet.h"
+#include "AttributeSets/SpeedAttributeSet.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -63,11 +65,13 @@ AActionGamePrototypeCharacter::AActionGamePrototypeCharacter()
 	AbilitySystemComponent->SetIsReplicated(true);
 
 	// Listeners bindings. I put those here because the Init GE is executed before the BeginPlay
-	OnHealthAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetHealthAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnHealthChanged);
-	OnSpeedAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetSpeedAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnSpeedChanged);
+	OnHealthAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UHealthAttributeSet::GetHealthAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnHealthChanged);
+	OnSpeedAttributeChangeDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(USpeedAttributeSet::GetSpeedAttribute()).AddUObject(this, &AActionGamePrototypeCharacter::OnSpeedChanged);
 
-	// Create the Character attribute set
-	CharacterAttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("CharacterAttributeSet"));
+	// Create the character attributes sets
+	HealthAttributeSet = CreateDefaultSubobject<UHealthAttributeSet>(TEXT("HealthAttributeSet"));
+	ManaAttributeSet = CreateDefaultSubobject<UManaAttributeSet>(TEXT("ManaAttributeSet"));
+	SpeedAttributeSet = CreateDefaultSubobject<USpeedAttributeSet>(TEXT("SpeedAttributeSet"));
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -194,11 +198,7 @@ void AActionGamePrototypeCharacter::OnHealthChanged(const FOnAttributeChangeData
 {
 	const float NewHealth = Data.NewValue;
 
-	if(NewHealth <= 0.0f)
-	{
-		Die();
-	}
-	else if(NewHealth < Data.OldValue)
+	if(NewHealth < Data.OldValue)
 	{
 		// TODO: Change this to be relative to some damages only and use the normal with the overlap
 		FVector MovementDirection = GetLastMovementInputVector();
@@ -209,6 +209,11 @@ void AActionGamePrototypeCharacter::OnHealthChanged(const FOnAttributeChangeData
 
 		GetCharacterMovement()->MovementMode = EMovementMode::MOVE_Custom;
 		LaunchCharacter(MovementDirection.GetSafeNormal() * (-DamageForceReaction), true, true);
+	
+		if(NewHealth <= 0.0f)
+		{
+			Die();
+		}
 	}
 }
 
