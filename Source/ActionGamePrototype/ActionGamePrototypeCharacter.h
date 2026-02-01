@@ -85,8 +85,6 @@ class AActionGamePrototypeCharacter : public ACharacter
 
 public:
 	AActionGamePrototypeCharacter();
-	
-	void StopDash();
 
 	/* Attributes update */
 	void OnHealthChanged(const FOnAttributeChangeData& Data);
@@ -122,6 +120,9 @@ protected:
 
 	/** Called for dash input */
 	void DashInput(const FInputActionValue& Value);
+	
+	/** Called for stop dash input */
+	void DashInputReleased();
 
 	/** Called for attack input */
 	void AttackInput(const FInputActionValue& Value);

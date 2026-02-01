@@ -12,8 +12,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "GA_Dash.h"
-#include "GA_Jump.h"
+#include "GameplayAbilities/GA_Dash.h"
+#include "GameplayAbilities/GA_Jump.h"
 #include "InputActionValue.h"
 #include "AttributeSets/HealthAttributeSet.h"
 #include "AttributeSets/ManaAttributeSet.h"
@@ -96,12 +96,6 @@ void AActionGamePrototypeCharacter::BeginPlay()
 	AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(DashGameplayAbility, 1, 0));
 }
 
-void AActionGamePrototypeCharacter::StopDash()
-{
-	GetCharacterMovement()->StopActiveMovement();
-}
-
-
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -116,7 +110,7 @@ void AActionGamePrototypeCharacter::SetupPlayerInputComponent(UInputComponent* P
 
 		// Dashing
 		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Started, this, &AActionGamePrototypeCharacter::DashInput);
-		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Completed, this, &AActionGamePrototypeCharacter::StopDash);
+		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Completed, this, &AActionGamePrototypeCharacter::DashInputReleased);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AActionGamePrototypeCharacter::MoveInput);
@@ -169,6 +163,14 @@ void AActionGamePrototypeCharacter::DashInput(const FInputActionValue& Value)
 	if (AbilitySystemComponent != nullptr)
 	{
 		AbilitySystemComponent->TryActivateAbilityByClass(DashGameplayAbility);
+	}
+}
+
+void AActionGamePrototypeCharacter::DashInputReleased()
+{
+	if (AbilitySystemComponent != nullptr)
+	{
+		AbilitySystemComponent->CancelAbility(Cast<UGameplayAbility>(DashGameplayAbility));
 	}
 }
 
