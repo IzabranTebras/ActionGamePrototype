@@ -54,6 +54,9 @@ class AActionGamePrototypeCharacter : public ACharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UGA_Dash> DashGameplayAbility;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS, meta = (AllowPrivateAccess = "true"))
+	TArray<TSubclassOf<UGameplayAbility>> CharacterGenericAbilities;
 	// ----------------------------------------
 
 	/** MappingContext */
@@ -87,8 +90,8 @@ public:
 	AActionGamePrototypeCharacter();
 
 	/* Attributes update */
-	void OnHealthChanged(const FOnAttributeChangeData& Data);
-	void OnSpeedChanged(const FOnAttributeChangeData& Data);
+	void OnHealthChanged(const FOnAttributeChangeData& Data) const;
+	void OnSpeedChanged(const FOnAttributeChangeData& Data) const;
 
 	// Move this to the GE
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
@@ -104,10 +107,10 @@ public:
 
 protected:
 	// To add mapping context
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 	// APawn interface
-	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/** Called for movement input */
 	void MoveInput(const FInputActionValue& Value);
@@ -128,6 +131,6 @@ protected:
 	void AttackInput(const FInputActionValue& Value);
 			
 private:
-	void Die();
+	void Die() const;
 };
 

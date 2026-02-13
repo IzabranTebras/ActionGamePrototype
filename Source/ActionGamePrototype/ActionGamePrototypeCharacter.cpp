@@ -83,7 +83,7 @@ void AActionGamePrototypeCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	//Add Input Mapping Context
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	if (const APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
@@ -94,6 +94,11 @@ void AActionGamePrototypeCharacter::BeginPlay()
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(JumpGameplayAbility, 1, 0));
 	AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(DashGameplayAbility, 1, 0));
+	
+	for (const TSubclassOf<UGameplayAbility> GameplayAbility : CharacterGenericAbilities)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(GameplayAbility, 1, 0));
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -196,35 +201,22 @@ void AActionGamePrototypeCharacter::AttackInput(const FInputActionValue& Value)
 //////////////////////////////////////////////////////////////////////////
 // Character state update
 
-void AActionGamePrototypeCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
+void AActionGamePrototypeCharacter::OnHealthChanged(const FOnAttributeChangeData& Data) const
 {
 	const float NewHealth = Data.NewValue;
 
-	if(NewHealth < Data.OldValue)
+	if(NewHealth < Data.OldValue && NewHealth <= 0.0f)
 	{
-		// TODO: Change this to be relative to some damages only and use the normal with the overlap
-		FVector MovementDirection = GetLastMovementInputVector();
-		if (MovementDirection.IsNearlyZero())
-		{
-			MovementDirection = GetActorForwardVector();
-		}
-
-		GetCharacterMovement()->MovementMode = EMovementMode::MOVE_Custom;
-		LaunchCharacter(MovementDirection.GetSafeNormal() * (-DamageForceReaction), true, true);
-	
-		if(NewHealth <= 0.0f)
-		{
-			Die();
-		}
+		Die();
 	}
 }
 
-void AActionGamePrototypeCharacter::OnSpeedChanged(const FOnAttributeChangeData& Data)
+void AActionGamePrototypeCharacter::OnSpeedChanged(const FOnAttributeChangeData& Data) const
 {
 	GetCharacterMovement()->MaxWalkSpeed = Data.NewValue;
 }
 
-void AActionGamePrototypeCharacter::Die()
+void AActionGamePrototypeCharacter::Die() const
 {
 	GetCharacterMovement()->Deactivate();
 	OnDeath.Broadcast();

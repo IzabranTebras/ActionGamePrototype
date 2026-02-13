@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "BaseGameplayAbility.h"
 #include "CoreMinimal.h"
+#include "GameplayAbilities/BaseGameplayAbility.h"
 
 #include "GA_Dash.generated.h"
 

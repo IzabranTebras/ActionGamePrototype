@@ -2,6 +2,7 @@
 
 
 #include "GameplayAbilities/GA_Dash.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ActionGamePrototype/ActionGamePrototypeCharacter.h"
 
@@ -33,6 +34,6 @@ void UGA_Dash::ExecuteActivation(const FGameplayAbilitySpecHandle Handle, const 
 void UGA_Dash::ExecuteCancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
 {
-	AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
+	const AActionGamePrototypeCharacter* Character = CastChecked<AActionGamePrototypeCharacter>(ActorInfo->AvatarActor.Get());
 	Character->GetCharacterMovement()->StopActiveMovement();
 }

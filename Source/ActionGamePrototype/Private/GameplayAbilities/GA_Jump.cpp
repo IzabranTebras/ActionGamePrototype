@@ -2,6 +2,7 @@
 
 
 #include "GameplayAbilities/GA_Jump.h"
+
 #include "ActionGamePrototype/ActionGamePrototypeCharacter.h"
 
 UGA_Jump::UGA_Jump(const FObjectInitializer& ObjectInitializer)
